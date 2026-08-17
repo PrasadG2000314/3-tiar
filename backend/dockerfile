@@ -1,0 +1,20 @@
+# 1. පදනම් කරගන්නා පරිසරය (Node.js ලබා ගැනීම)
+FROM node:18-alpine
+
+# 2. Container එක ඇතුලේ වැඩ කරන ෆෝල්ඩරය සැකසීම
+WORKDIR /app
+
+# 3. අපේ package.json ෆයිල්ස් Container එකට කොපි කිරීම
+COPY package*.json ./
+
+# 4. අවශ්‍ය Packages (Express, Mongoose) Install කිරීම
+RUN npm install
+
+# 5. අපේ ඉතුරු කේත (server.js) සියල්ල කොපි කිරීම
+COPY . .
+
+# 6. Backend එක වැඩ කරන Port එක විවෘත කිරීම
+EXPOSE 5000
+
+# 7. Server එක ධාවනය කරන විදිහ
+CMD ["node", "server.js"]

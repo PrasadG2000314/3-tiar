@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: devops002-frontend:latest
+        imagePullPolicy: Never # අන්තර්ජාලයෙන් නොහොයා Minikube ඇතුලෙන්ම Image එක ගන්න
+        ports:
+        - containerPort: 5173
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  type: NodePort # පිටත Browser එකෙන් App එකට යන්න මේක අවශ්‍යයි
+  selector:
+    app: frontend
+  ports:
+  - protocol: TCP
+    port: 5173
+    targetPort: 5173
+    nodePort: 30007 # මේ Port එකෙන් තමයි අපි අපේ App එක අවසානයේ Open කරන්නේ
